@@ -12,7 +12,7 @@ const puerto = 3000
 //mongoose.connect('mongodb://usuario:password@servidor:puerto/miapp?authSource=admin')
 
 app.get('/', async (_req, res) => {
-  return res.send("Hola mundo modificado!")
+  return res.send("Hola mundo modificadaao!")
 })
 
 
@@ -36,8 +36,30 @@ app.get('/random', async (_req, res) => {
   return res.send(`El número aleatorio es: ${random}`)
 })
 
-app.get('/examen:id', async (_req, res) => {
-  const id = _req.params.id
+
+app.get('/examenes', async (_req, res) => {
+  const asignatura = (_req.query.asignatura)
+
+  switch (asignatura) {
+    case "AC":
+      return res.send(`21/11/20261`)
+        ;
+    case "PSP":
+      return res.send(`27/11/2026`)
+        ;
+    case "DG":
+      return res.send(`30/11/2026`)
+        ;
+    case "PM":
+      return res.send(`02/12/2026`)
+        ;
+    default:
+      return res.send(`No hay fecha para esa asignatura`)
+  }
+})
+
+app.get('/examen/:id', async (_req, res) => {
+  const id = Number(_req.params.id)
   console.log(`Consultando examen ${id}...`)
 
   switch (id) {
@@ -58,26 +80,6 @@ app.get('/examen:id', async (_req, res) => {
   }
 })
 
-app.get('/examenes', async (_req, res) => {
-  const nombre = _req.query.nombre
-
-  switch (nombre) {
-    case "AC":
-      return res.send(`21/11/2026`)
-        ;
-    case "PSP":
-      return res.send(`27/11/2026`)
-        ;
-    case "DG":
-      return res.send(`30/11/2026`)
-        ;
-    case "PM":
-      return res.send(`02/12/2026`)
-        ;
-    default:
-      return res.send(`No hay fecha para esa asignatura`)
-  }
-})
 
 
 app.get('/suma', async (_req, res) => {
@@ -106,7 +108,17 @@ app.get('/comparar', async (_req, res) => {
   }
 })
 
-//date devuelve fecha dd/mm/aa
+app.get('/fecha', async (_req, res) => {
+  const fecha = new Date();
+
+  const dia = fecha.getDate();
+  const mes = fecha.getMonth() + 1;
+  const anyo = fecha.getFullYear();
+
+  const fechaFormateada = `${dia}/${mes}/${anyo}`;
+      return res.send(fechaFormateada)
+}
+)
 
 /*app.get('/crear', async (_req, res) => {
   console.log('creando...')
@@ -114,4 +126,4 @@ app.get('/comparar', async (_req, res) => {
   return res.send('ok')
 })*/
 
-app.listen(puerto, () => console.log(`escuhando el puerto ${puerto}...`))
+app.listen(puerto, () => console.log(`escuchando el puerto ${puerto}...`))
